@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seu Assistente de Estudos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .cronograma {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .modulo {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .modulo h3 {
+      margin-top: 0;
+      color: #3498db;
+    }
+    .recursos {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 5px;
+    }
+    .recursos input[type=text] {
+      width: 80%;
+      padding: 4px;
+      font-size: 0.9em;
+      margin-right: 8px;
+    }
+    .recursos button {
+      padding: 4px 8px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #555;
+    }
+    footer a {
+      color: #0073b1;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+    function updateLink(id) {
+      const input = document.getElementById('input-'+id);
+      const link = document.getElementById('link-'+id);
+      let url = input.value.trim();
+      if (!url.startsWith('http')) {
+        url = 'https://' + url;
+      }
+      link.href = url;
+      link.textContent = url;
+      alert('Link atualizado para: ' + url);
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Seu Assistente de Estudos — Cronograma Interativo de IA para Product Manager</h1>
+  </header>
+
+  <div class="cronograma">
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod1" /> 1. Conceitos Básicos</h3>
+      <p>Introdução à IA, Machine Learning e fundamentos para Product Managers.</p>
+      <div class="recursos">
+        <a id="link-1" href="https://pm3.com.br/curso-ai-product-specialist/" target="_blank">https://pm3.com.br/curso-ai-product-specialist/</a><br />
+        <input type="text" id="input-1" value="pm3.com.br/curso-ai-product-specialist/" />
+        <button onclick="updateLink(1)">Atualizar Link</button>
+      </div>
+    </div>
+
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod2" /> 2. Prompt Engineering</h3>
+      <p>Técnicas de criação de prompts eficientes para modelos de linguagem.</p>
+      <div class="recursos">
+        <a id="link-2" href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank">https://platform.openai.com/docs/guides/prompt-engineering</a><br />
+        <input type="text" id="input-2" value="platform.openai.com/docs/guides/prompt-engineering" />
+        <button onclick="updateLink(2)">Atualizar Link</button>
+      </div>
+    </div>
+
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod3" /> 3. Desenvolvimento & Automação</h3>
+      <p>APIs, no-code, workflows e automação de processos.</p>
+      <div class="recursos">
+        <a id="link-3a" href="https://n8n.io" target="_blank">https://n8n.io</a><br />
+        <input type="text" id="input-3a" value="n8n.io" />
+        <button onclick="updateLink('3a')">Atualizar Link</button><br />
+        <a id="link-3b" href="https://help.bolt.com/get-started/what-is-bolt/" target="_blank">https://help.bolt.com/get-started/what-is-bolt/</a><br />
+        <input type="text" id="input-3b" value="help.bolt.com/get-started/what-is-bolt/" />
+        <button onclick="updateLink('3b')">Atualizar Link</button><br />
+        <a id="link-3c" href="https://www.softr.io/" target="_blank">https://www.softr.io/</a><br />
+        <input type="text" id="input-3c" value="www.softr.io" />
+        <button onclick="updateLink('3c')">Atualizar Link</button>
+      </div>
+    </div>
+
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod4" /> 4. Fine-Tuning & Adaptação</h3>
+      <p>Personalização de modelos de IA para casos de uso específicos.</p>
+      <div class="recursos">
+        <a id="link-4" href="https://huggingface.co/docs/transformers/main/en/training" target="_blank">https://huggingface.co/docs/transformers/main/en/training</a><br />
+        <input type="text" id="input-4" value="huggingface.co/docs/transformers/main/en/training" />
+        <button onclick="updateLink(4)">Atualizar Link</button>
+      </div>
+    </div>
+
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod5" /> 5. RAG & Conhecimento Externo</h3>
+      <p>Integração de bancos vetoriais e conhecimento externo.</p>
+      <div class="recursos">
+        <a id="link-5a" href="https://supabase.com/" target="_blank">https://supabase.com/</a><br />
+        <input type="text" id="input-5a" value="supabase.com" />
+        <button onclick="updateLink('5a')">Atualizar Link</button><br />
+        <a id="link-5b" href="https://flowiseai.com/" target="_blank">https://flowiseai.com/</a><br />
+        <input type="text" id="input-5b" value="flowiseai.com" />
+        <button onclick="updateLink('5b')">Atualizar Link</button>
+      </div>
+    </div>
+
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod6" /> 6. AI Agents & Fluxos Agênticos</h3>
+      <p>Automação avançada e agentes de IA.</p>
+      <div class="recursos">
+        <a id="link-6a" href="https://n8n.io" target="_blank">https://n8n.io</a><br />
+        <input type="text" id="input-6a" value="n8n.io" />
+        <button onclick="updateLink('6a')">Atualizar Link</button><br />
+        <a id="link-6b" href="https://flowiseai.com/" target="_blank">https://flowiseai.com/</a><br />
+        <input type="text" id="input-6b" value="flowiseai.com" />
+        <button onclick="updateLink('6b')">Atualizar Link</button>
+      </div>
+    </div>
+
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod7" /> 7. Prototipagem & Desenvolvimento</h3>
+      <p>Prototipagem rápida e desenvolvimento de MVPs.</p>
+      <div class="recursos">
+        <a id="link-7a" href="https://www.softr.io/" target="_blank">https://www.softr.io/</a><br />
+        <input type="text" id="input-7a" value="www.softr.io" />
+        <button onclick="updateLink('7a')">Atualizar Link</button><br />
+        <a id="link-7b" href="https://supabase.com/" target="_blank">https://supabase.com/</a><br />
+        <input type="text" id="input-7b" value="supabase.com" />
+        <button onclick="updateLink('7b')">Atualizar Link</button>
+      </div>
+    </div>
+
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod8" /> 8. Modelos Fundacionais & APIs</h3>
+      <p>Integração de modelos e APIs.</p>
+      <div class="recursos">
+        <a id="link-8" href="https://platform.openai.com/docs/api-reference" target="_blank">https://platform.openai.com/docs/api-reference</a><br />
+        <input type="text" id="input-8" value="platform.openai.com/docs/api-reference" />
+        <button onclick="updateLink(8)">Atualizar Link</button>
+      </div>
+    </div>
+
+    <div class="modulo">
+      <h3><input type="checkbox" id="mod9" /> 9. Sistemas de Avaliação</h3>
+      <p>Métricas, feedback e avaliação de IA.</p>
+      <div class="recursos">
+        <a id="link-9" href="https://www.evals.ai/" target="_blank">https://www.evals.ai/</a><br />
+        <input type="text" id="input-9" value="www.evals.ai" />
+        <button onclick="updateLink(9)">Atualizar Link</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Idealizado por <a href="https://www.linkedin.com/in/lorena-sena?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank">Lorena Sena</a>
+  </footer>
+</body>
+</html>
