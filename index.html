@@ -2,377 +2,473 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>AI PM Learning Roadmap — Seu Assistente de Estudos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cronograma de Estudos em IA para Product Managers</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #3498db;
+      --background: #f9f9f9;
+      --card-bg: #fff;
+      --border: #e0e0e0;
+      --accent: #2c3e50;
+      --highlight: #e8f4fd;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--background);
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: row;
+    }
+    nav {
+      width: 250px;
+      background: var(--card-bg);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 0 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: 1px 0 8px #0001;
+      z-index: 10;
+    }
+    nav h2 {
+      margin: 0 0 20px 32px;
+      color: var(--primary);
+      font-size: 1.18em;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0 0 0 32px;
+      margin: 0;
+    }
+    nav li {
+      margin: 0 0 12px 0;
+    }
+    nav a {
+      color: #222;
+      text-decoration: none;
+      font-size: 1.01em;
+      display: block;
+      padding: 7px 10px;
+      border-radius: 5px 0 0 5px;
+      transition: background 0.15s;
+    }
+    nav a.active, nav a:focus {
+      background: var(--highlight);
+      color: var(--primary);
+      font-weight: bold;
+      outline: none;
+    }
+    nav input[type="text"] {
+      width: 80%;
+      margin: 0 0 18px 10%;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      font-size: 1em;
+    }
+    main {
+      flex: 1;
+      padding: 32px 0 32px 0;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .container {
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      padding: 24px 24px 8px 24px;
+    }
+    h1 {
+      color: var(--accent);
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 32px;
+      font-size: 2em;
+    }
+    .accordion {
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .accordion summary {
+      cursor: pointer;
+      font-size: 1.12em;
+      font-weight: bold;
+      color: var(--primary);
+      outline: none;
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .accordion[open] summary {
+      background: var(--highlight);
+    }
+    .accordion-content {
+      margin: 8px 0 12px 0;
+      padding-left: 8px;
+      font-size: 1em;
+    }
+    .checkbox {
+      margin-right: 10px;
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+    }
+    .resources, .links, .tools {
+      margin: 7px 0 0 0;
+      font-size: 0.98em;
+    }
+    .resources a, .links a, .tools a {
+      color: var(--primary);
+      text-decoration: underline;
+      margin-right: 8px;
+      word-break: break-all;
+    }
+    .resources input[type=text] {
+      width: 70%;
+      margin: 2px 0 2px 0;
+      font-size: 0.97em;
+      padding: 2px 4px;
+    }
+    .resources button {
+      font-size: 0.95em;
+      padding: 2px 8px;
+      margin-left: 4px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid var(--primary);
+      background: #fff;
+      color: var(--primary);
+      transition: background 0.2s;
+    }
+    .resources button:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .section-title {
+      font-weight: bold;
+      margin-top: 8px;
+      color: var(--accent);
+    }
+    .desc, ul, .tools, .models {
+      margin-left: 12px;
+    }
+    .search-noresult {
+      color: #888;
+      text-align: center;
+      margin: 32px 0;
+      font-size: 1.1em;
+    }
+    footer {
+      margin: 40px 0 0 0;
+      text-align: center;
+      color: #555;
+      font-size: 0.98em;
+    }
+    footer a {
+      color: #0073b1;
+      text-decoration: none;
+    }
+    @media (max-width: 900px) {
+      nav { display: none; }
+      main { padding: 10px; }
+      .container { padding: 8px; }
+    }
+  </style>
+  <script>
+    // Navegação: scroll suave e destaque ativo
+    document.addEventListener('DOMContentLoaded', function() {
+      // Navegação lateral
+      const links = document.querySelectorAll('nav a');
+      links.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            links.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+            target.open = true;
+          }
+        });
+      });
+
+      // Carregar estado dos checkboxes do localStorage
+      document.querySelectorAll('.checkbox').forEach(checkbox => {
+        const id = checkbox.closest('details').id;
+        const saved = localStorage.getItem('checkbox_' + id);
+        if (saved === 'true') checkbox.checked = true;
+        checkbox.addEventListener('change', function() {
+          localStorage.setItem('checkbox_' + id, this.checked);
+        });
+      });
+
+      // Carregar links editados do localStorage
+      document.querySelectorAll('.resources input[type=text]').forEach(input => {
+        const id = input.id.replace('input-', '');
+        const saved = localStorage.getItem('link_' + id);
+        if (saved) {
+          input.value = saved;
+          const link = document.getElementById('link-' + id);
+          if (link) {
+            link.href = saved.startsWith('http') ? saved : 'https://' + saved;
+            link.textContent = saved;
+          }
+        }
+      });
+    });
+
+    // Edição de links de recursos
+    function updateLink(id) {
+      const input = document.getElementById('input-'+id);
+      const link = document.getElementById('link-'+id);
+      let url = input.value.trim();
+      if (!url.startsWith('http')) url = 'https://' + url;
+      link.href = url;
+      link.textContent = url;
+      localStorage.setItem('link_' + id, input.value.trim());
+      alert('Link atualizado para: ' + url);
+    }
+
+    // Busca instantânea entre módulos
+    function filterModules() {
+      const query = document.getElementById('searchbox').value.toLowerCase();
+      let anyVisible = false;
+      document.querySelectorAll('.accordion').forEach(acc => {
+        const text = acc.textContent.toLowerCase();
+        if (text.indexOf(query) !== -1) {
+          acc.style.display = '';
+          anyVisible = true;
+        } else {
+          acc.style.display = 'none';
+        }
+      });
+      document.getElementById('noresult').style.display = anyVisible ? 'none' : '';
+    }
+  </script>
 </head>
 <body>
-  <header class="site-header">
+  <nav>
+    <h2>Roadmap</h2>
+    <input type="text" id="searchbox" placeholder="Buscar módulo..." onkeyup="filterModules()" />
+    <ul>
+      <li><a href="#mod1" class="active">1. Basic Concepts</a></li>
+      <li><a href="#mod2">2. Prompt Engineering</a></li>
+      <li><a href="#mod3">3. Fine-Tuning</a></li>
+      <li><a href="#mod4">4. RAG</a></li>
+      <li><a href="#mod5">5. Agents & Workflows</a></li>
+      <li><a href="#mod6">6. Prototyping & Building</a></li>
+      <li><a href="#mod7">7. Foundational Models</a></li>
+      <li><a href="#mod8">8. Evaluation Systems</a></li>
+      <li><a href="#mod9">9. Other Resources</a></li>
+    </ul>
+  </nav>
+  <main>
     <div class="container">
-      <h1>Cronograma de Estudos em IA para Product Managers</h1>
-      <p class="subtitle">Planejamento otimizado para profissionais com experiência em Product Management</p>
+      <h1>AI PM Learning Roadmap — Seu Assistente de Estudos</h1>
+      <!-- SEARCH FEEDBACK -->
+      <div id="noresult" class="search-noresult" style="display:none;">Nenhum módulo encontrado.</div>
+
+      <!-- 1. Basic Concepts -->
+      <details class="accordion" id="mod1" open>
+        <summary><input type="checkbox" class="checkbox" /> 1. Basic Concepts</summary>
+        <div class="accordion-content">
+          <b>Machine Learning:</b>
+          <ul>
+            <li>Supervised Learning</li>
+            <li>Unsupervised Learning</li>
+            <li>Reinforcement Learning</li>
+            <li>Deep Learning</li>
+          </ul>
+          <span class="section-title">Architectures:</span> Neural Networks, Transformers, LLMs<br>
+          <span class="section-title">Models:</span> LLM, LCM, LAM, MoE, VLM, SLM, MLM, SAM
+          <div class="resources section-title">Free resources:</div>
+          <div class="links">
+            <a id="link-1a" href="https://wtfis.ai/product-manager" target="_blank">WTF is AI Product Manager</a>
+            <input type="text" id="input-1a" value="wtfis.ai/product-manager" />
+            <button onclick="updateLink('1a')">Atualizar Link</button>
+            <br>
+            <a id="link-1b" href="https://llm-visualization.com" target="_blank">LLM Visualization</a>
+            <input type="text" id="input-1b" value="llm-visualization.com" />
+            <button onclick="updateLink('1b')">Atualizar Link</button>
+          </div>
+        </div>
+      </details>
+
+      <!-- 2. Prompt Engineering -->
+      <details class="accordion" id="mod2">
+        <summary><input type="checkbox" class="checkbox" /> 2. Prompt Engineering</summary>
+        <div class="accordion-content">
+          <div class="resources section-title">Free guides & courses:</div>
+          <div class="links">
+            <a id="link-2a" href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank">GPT-4.1 Prompting Guide</a>
+            <input type="text" id="input-2a" value="platform.openai.com/docs/guides/prompt-engineering" />
+            <button onclick="updateLink('2a')">Atualizar Link</button>
+            <br>
+            <a id="link-2b" href="https://docs.anthropic.com/claude/docs/prompt-engineering" target="_blank">Anthropic Prompt Eng.</a>
+            <input type="text" id="input-2b" value="docs.anthropic.com/claude/docs/prompt-engineering" />
+            <button onclick="updateLink('2b')">Atualizar Link</button>
+            <br>
+            <a id="link-2c" href="https://cloud.google.com/vertex-ai/docs/generative-ai/workbench/prompt-engineering" target="_blank">Prompt Eng. by Google</a>
+            <input type="text" id="input-2c" value="cloud.google.com/vertex-ai/docs/generative-ai/workbench/prompt-engineering" />
+            <button onclick="updateLink('2c')">Atualizar Link</button>
+            <br>
+            <a id="link-2d" href="https://docs.anthropic.com/claude/docs/system-prompts" target="_blank">System prompt, Claude 4</a>
+            <input type="text" id="input-2d" value="docs.anthropic.com/claude/docs/system-prompts" />
+            <button onclick="updateLink('2d')">Atualizar Link</button>
+            <br>
+            <a id="link-2e" href="https://docs.anthropic.com/claude/docs/prompt-library" target="_blank">Anthropic Prompt Library</a>
+            <input type="text" id="input-2e" value="docs.anthropic.com/claude/docs/prompt-library" />
+            <button onclick="updateLink('2e')">Atualizar Link</button>
+          </div>
+          <div class="section-title">Techniques:</div>
+          CoT, Roles, Examples, Step-by-Step, Constraints, Chain prompts, Autonomy, Reflect, XML #, M/L, Persist
+        </div>
+      </details>
+
+      <!-- 3. Fine-Tuning -->
+      <details class="accordion" id="mod3">
+        <summary><input type="checkbox" class="checkbox" /> 3. Fine-Tuning</summary>
+        <div class="accordion-content">
+          <span class="section-title">Methods:</span> Supervised (SFT), Direct Prefer. Opt. (DPO)<br>
+          <span class="section-title">Terms:</span> Training data, Validation data, Epoch, Batch size, Learning rate, Beta (for DPO)
+          <div class="resources section-title">Best tools:</div>
+          <div class="links">
+            <a id="link-3a" href="https://platform.openai.com/docs/guides/fine-tuning" target="_blank">OpenAI Platform</a>
+            <input type="text" id="input-3a" value="platform.openai.com/docs/guides/fine-tuning" />
+            <button onclick="updateLink('3a')">Atualizar Link</button>
+            <br>
+            <a id="link-3b" href="https://huggingface.co/autotrain" target="_blank">Hugging Face AutoTrain</a>
+            <input type="text" id="input-3b" value="huggingface.co/autotrain" />
+            <button onclick="updateLink('3b')">Atualizar Link</button>
+            <br>
+            <a id="link-3c" href="https://github.com/hiyouga/LLaMA-Factory" target="_blank">LLaMA-Factory</a>
+            <input type="text" id="input-3c" value="github.com/hiyouga/LLaMA-Factory" />
+            <button onclick="updateLink('3c')">Atualizar Link</button>
+          </div>
+          <div class="section-title">Key Metric / What It Tells You</div>
+          <ul>
+            <li>Training Loss ↓ : The model is learning from data.</li>
+            <li>Training Accuracy ↑ : Better at predicting tokens it has seen.</li>
+            <li>Validation Loss ↓ : It’s generalizing well to new data.</li>
+            <li>Validation Accuracy ↑ : It’s predicting new tokens well.</li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- 4. RAG -->
+      <details class="accordion" id="mod4">
+        <summary><input type="checkbox" class="checkbox" /> 4. RAG (Retrieval-Augmented Gen.)</summary>
+        <div class="accordion-content">
+          <span class="section-title">Vector DBs:</span> Weaviate, Pinecone, pyevector<br>
+          <span class="section-title">Document DBs:</span> OpenSearch, elastic, MongoDB<br>
+          <span class="section-title">Knowledge graphs:</span> Weaviate, neo4j
+          <div class="resources section-title">Vector DB vs. Document DB:</div>
+          <div>
+            Use <b>vector store</b> to store embeddings and perform fast semantic search over chunks.<br>
+            Use <b>document DB</b> to store the full content and metadata (e.g., document url, author, date).
+          </div>
+        </div>
+      </details>
+
+      <!-- 5. AI Agents & Agentic Workflows -->
+      <details class="accordion" id="mod5">
+        <summary><input type="checkbox" class="checkbox" /> 5. AI Agents & Agentic Workflows</summary>
+        <div class="accordion-content">
+          <span class="section-title">Ferramentas:</span>
+          n8n, zapier, crewAI, Cassidy, Flowise, make, LangChain, Lindy, LAMINI, LlamaIndex, LangGraph, haystack, AG, AutoGen
+          <div class="section-title">Techniques:</div>
+          Tool use, MCP, A2A, RAG, Agent Architectures
+          <div class="resources section-title">Free reports:</div>
+          <div class="links">
+            <a id="link-5a" href="https://cloud.google.com/agent-companion/docs" target="_blank">Google Agent Companion</a>
+            <input type="text" id="input-5a" value="cloud.google.com/agent-companion/docs" />
+            <button onclick="updateLink('5a')">Atualizar Link</button>
+            <br>
+            <a id="link-5b" href="https://docs.anthropic.com/claude/docs/building-agents" target="_blank">Anthropic Building Agents</a>
+            <input type="text" id="input-5b" value="docs.anthropic.com/claude/docs/building-agents" />
+            <button onclick="updateLink('5b')">Atualizar Link</button>
+            <br>
+            <a id="link-5c" href="https://www.ibm.com/topics/agentic-process-automation" target="_blank">IBM Agentic Process Automation</a>
+            <input type="text" id="input-5c" value="ibm.com/topics/agentic-process-automation" />
+            <button onclick="updateLink('5c')">Atualizar Link</button>
+          </div>
+        </div>
+      </details>
+
+      <!-- 6. AI Prototyping & Building -->
+      <details class="accordion" id="mod6">
+        <summary><input type="checkbox" class="checkbox" /> 6. AI Prototyping & Building</summary>
+        <div class="accordion-content">
+          <span class="section-title">No-code first:</span> Lovable, Bolt, Databutton, Firebase Studio<br>
+          <span class="section-title">IDE first:</span> Replit, v0, Windsurf, Cursor<br>
+          <span class="section-title">Others:</span> Jules, Codex, GitHub Copilot
+          <div class="resources section-title">Infrastructure Tools:</div>
+          supabase, Firebase, Clerk, GitHub, OpenRouter, PromptLayer, Docker, DigitalOcean, Arize, truera, Streamlit, VAPI, ElevenLabs
+        </div>
+      </details>
+
+      <!-- 7. Foundational Models -->
+      <details class="accordion" id="mod7">
+        <summary><input type="checkbox" class="checkbox" /> 7. Foundational Models</summary>
+        <div class="accordion-content">
+          Claude, DeepSeek, Llama, Grok, ChatGPT, Qwen3, Mistral, Gemini
+        </div>
+      </details>
+
+      <!-- 8. AI Evaluation Systems -->
+      <details class="accordion" id="mod8">
+        <summary><input type="checkbox" class="checkbox" /> 8. AI Evaluation Systems</summary>
+        <div class="accordion-content">
+          <span class="section-title">Virtuous Cycle:</span>
+          <img src="https://pplx-res.cloudinary.com/image/private/user_uploads/44420970/181900c6-87f7-48c3-8cf7-3646e87a9474/1750493200587.jpg" alt="Virtuous Cycle" style="max-width:100%; border-radius:4px; margin:8px 0;">
+          <div class="section-title">Techniques:</div>
+          Unit Tests, LLM Judge, Error Analysis, TNR, TPR, Human Eval, Model Eval, Train/Test/Dev, A/B Tests
+          <div class="resources section-title">Guide:</div>
+          <a id="link-8a" href="https://pmcompass.notion.site/Mastering-AI-Evals-A-Free-Complete-Guide-for-PMs-2e0b0d7e3d8b4a1c8a3e7a8c3e5b7e2d" target="_blank">Mastering AI Evals: A Free, Complete Guide for PMs</a>
+          <input type="text" id="input-8a" value="pmcompass.notion.site/Mastering-AI-Evals-A-Free-Complete-Guide-for-PMs-2e0b0d7e3d8b4a1c8a3e7a8c3e5b7e2d" />
+          <button onclick="updateLink('8a')">Atualizar Link</button>
+        </div>
+      </details>
+
+      <!-- 9. Other Resources -->
+      <details class="accordion" id="mod9">
+        <summary><input type="checkbox" class="checkbox" /> 9. Other Resources</summary>
+        <div class="accordion-content">
+          <div class="links">
+            <a id="link-9a" href="https://github.com/miqdadjaffer/ai-prd" target="_blank">AI PRD: Free PRD template by Miqdad Jaffer (OpenAI)</a>
+            <input type="text" id="input-9a" value="github.com/miqdadjaffer/ai-prd" />
+            <button onclick="updateLink('9a')">Atualizar Link</button>
+            <br>
+            <a id="link-9b" href="https://github.com/steven2358/awesome-generative-ai" target="_blank">Awesome Generative AI Guide (GitHub)</a>
+            <input type="text" id="input-9b" value="github.com/steven2358/awesome-generative-ai" />
+            <button onclick="updateLink('9b')">Atualizar Link</button>
+            <br>
+            <a id="link-9c" href="https://abacus.ai/blog/chatllm/" target="_blank">ChatLLM (abacus.ai)</a>
+            <input type="text" id="input-9c" value="abacus.ai/blog/chatllm/" />
+            <button onclick="updateLink('9c')">Atualizar Link</button>
+            <br>
+            <a id="link-9d" href="https://mcp.so/" target="_blank">MCP.so: Largest collection of MCP servers</a>
+            <input type="text" id="input-9d" value="mcp.so/" />
+            <button onclick="updateLink('9d')">Atualizar Link</button>
+            <br>
+            <a id="link-9e" href="https://docs.anthropic.com/claude/docs/mcp-servers" target="_blank">Anthropic MCP Servers</a>
+            <input type="text" id="input-9e" value="docs.anthropic.com/claude/docs/mcp-servers" />
+            <button onclick="updateLink('9e')">Atualizar Link</button>
+            <br>
+            <a id="link-9f" href="https://github.com/microsoft/markitdown" target="_blank">microsoft/markitdown</a>
+            <input type="text" id="input-9f" value="github.com/microsoft/markitdown" />
+            <button onclick="updateLink('9f')">Atualizar Link</button>
+          </div>
+        </div>
+      </details>
+
+      <footer>
+        Idealizado por <a href="https://www.linkedin.com/in/lorena-sena?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank">Lorena Sena</a>
+      </footer>
     </div>
-  </header>
-
-  <main class="container">
-    <nav class="tabs">
-      <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
-      <button class="tab-btn" data-tab="timeline">Cronograma</button>
-      <button class="tab-btn" data-tab="weekly">Cronograma Semanal</button>
-      <button class="tab-btn" data-tab="customize">Personalizar</button>
-      <button class="tab-btn" data-tab="modules">Módulos Detalhados</button>
-      <button class="tab-btn" data-tab="calculator">Calculadora</button>
-    </nav>
-
-    <!-- Dashboard -->
-    <section id="dashboard" class="tab-content active">
-      <div class="dashboard-header">
-        <div class="summary-cards">
-          <div class="card summary-card">
-            <div class="card__body">
-              <h3>Progresso Total</h3>
-              <div class="progress-container">
-                <div class="progress-bar" style="width: 0%;" id="progress-bar">0%</div>
-              </div>
-              <div class="summary-details">
-                <div class="summary-item">
-                  <span>Semanas:</span>
-                  <strong>27</strong>
-                </div>
-                <div class="summary-item">
-                  <span>Horas Totais:</span>
-                  <strong>218</strong>
-                </div>
-                <div class="summary-item">
-                  <span>Média Semanal:</span>
-                  <strong>8.1h</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card summary-card">
-            <div class="card__body">
-              <h3>Distribuição de Foco</h3>
-              <div class="focus-distribution">
-                <div class="focus-item">
-                  <div class="focus-label">
-                    <span class="color-indicator development"></span>
-                    <span>Desenvolvimento</span>
-                  </div>
-                  <div class="focus-bar-container">
-                    <div class="focus-bar development" id="dev-focus-bar"></div>
-                  </div>
-                  <span class="focus-percentage" id="dev-focus-percentage">0%</span>
-                </div>
-                <div class="focus-item">
-                  <div class="focus-label">
-                    <span class="color-indicator automation"></span>
-                    <span>Automação</span>
-                  </div>
-                  <div class="focus-bar-container">
-                    <div class="focus-bar automation" id="auto-focus-bar"></div>
-                  </div>
-                  <span class="focus-percentage" id="auto-focus-percentage">0%</span>
-                </div>
-                <div class="focus-item">
-                  <div class="focus-label">
-                    <span class="color-indicator data"></span>
-                    <span>Dados</span>
-                  </div>
-                  <div class="focus-bar-container">
-                    <div class="focus-bar data" id="data-focus-bar"></div>
-                  </div>
-                  <span class="focus-percentage" id="data-focus-percentage">0%</span>
-                </div>
-                <div class="focus-item">
-                  <div class="focus-label">
-                    <span class="color-indicator theory"></span>
-                    <span>Teoria</span>
-                  </div>
-                  <div class="focus-bar-container">
-                    <div class="focus-bar theory" id="theory-focus-bar"></div>
-                  </div>
-                  <span class="focus-percentage" id="theory-focus-percentage">0%</span>
-                </div>
-                <div class="focus-item">
-                  <div class="focus-label">
-                    <span class="color-indicator english"></span>
-                    <span>Inglês Técnico</span>
-                  </div>
-                  <div class="focus-bar-container">
-                    <div class="focus-bar english" id="english-focus-bar"></div>
-                  </div>
-                  <span class="focus-percentage" id="english-focus-percentage">0%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card chart-card">
-          <div class="card__body">
-            <h3>Horas por Módulo e Foco</h3>
-            <div class="chart-container">
-              <img src="https://pplx-res.cloudinary.com/image/upload/v1750515265/pplx_code_interpreter/47b9ec65_ogpovk.jpg" alt="Distribuição de Horas por Foco de Estudo" class="chart-image">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card__header">
-          <h3>Status Atual</h3>
-        </div>
-        <div class="card__body">
-          <div class="current-status">
-            <div class="status-item">
-              <h4>Módulo Atual</h4>
-              <div class="status module-status" id="current-module">
-                Não iniciado
-              </div>
-            </div>
-            <div class="status-item">
-              <h4>Data de Início</h4>
-              <div id="start-date">01/07/2025</div>
-            </div>
-            <div class="status-item">
-              <h4>Data de Término</h4>
-              <div id="end-date">05/01/2026</div>
-            </div>
-            <div class="status-item">
-              <h4>Dias Restantes</h4>
-              <div id="days-remaining">Calculando...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Cronograma Timeline -->
-    <section id="timeline" class="tab-content">
-      <div class="card">
-        <div class="card__header">
-          <h3>Timeline dos Módulos</h3>
-        </div>
-        <div class="card__body">
-          <div class="timeline-container" id="modules-timeline"></div>
-        </div>
-      </div>
-
-      <div class="modules-grid" id="modules-grid"></div>
-    </section>
-
-    <!-- Cronograma Semanal -->
-    <section id="weekly" class="tab-content">
-      <div class="card">
-        <div class="card__header">
-          <h3>Cronograma Semanal Detalhado</h3>
-        </div>
-        <div class="card__body">
-          <table class="weekly-schedule">
-            <thead>
-              <tr>
-                <th>Dia</th>
-                <th>Manhã</th>
-                <th>Noite (Parte 1)</th>
-                <th>Noite (Parte 2)</th>
-              </tr>
-            </thead>
-            <tbody id="weekly-schedule-body">
-              <!-- Preenchido via JavaScript -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card mt-8">
-        <div class="card__header">
-          <h3>Distribuição de Horas</h3>
-        </div>
-        <div class="card__body">
-          <div class="distribution-container">
-            <div class="distribution-item">
-              <h4>Horas por Semana</h4>
-              <div class="distribution-value" id="hours-per-week">8.1</div>
-            </div>
-            <div class="distribution-item">
-              <h4>Horas de Manhã</h4>
-              <div class="distribution-value" id="morning-hours">2.5</div>
-            </div>
-            <div class="distribution-item">
-              <h4>Horas à Noite</h4>
-              <div class="distribution-value" id="evening-hours">10</div>
-            </div>
-            <div class="distribution-item">
-              <h4>Horas no Sábado</h4>
-              <div class="distribution-value" id="saturday-hours">3</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Personalização -->
-    <section id="customize" class="tab-content">
-      <div class="card">
-        <div class="card__header">
-          <h3>Personalizar Cronograma</h3>
-        </div>
-        <div class="card__body">
-          <form id="customize-form">
-            <div class="form-group">
-              <label for="weekly-hours" class="form-label">Horas Semanais Totais: <span id="weekly-hours-value">8.1</span></label>
-              <input type="range" id="weekly-hours" class="form-control" min="6" max="12" step="0.5" value="8.1">
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Prioridades de Foco</label>
-              <div class="focus-priorities">
-                <div class="focus-priority-item">
-                  <input type="checkbox" id="dev-priority" class="priority-checkbox" checked>
-                  <label for="dev-priority">Desenvolvimento</label>
-                  <input type="range" id="dev-weight" class="weight-slider" min="1" max="5" value="4">
-                </div>
-                <div class="focus-priority-item">
-                  <input type="checkbox" id="auto-priority" class="priority-checkbox" checked>
-                  <label for="auto-priority">Automação</label>
-                  <input type="range" id="auto-weight" class="weight-slider" min="1" max="5" value="3">
-                </div>
-                <div class="focus-priority-item">
-                  <input type="checkbox" id="data-priority" class="priority-checkbox" checked>
-                  <label for="data-priority">Dados</label>
-                  <input type="range" id="data-weight" class="weight-slider" min="1" max="5" value="3">
-                </div>
-                <div class="focus-priority-item">
-                  <input type="checkbox" id="theory-priority" class="priority-checkbox">
-                  <label for="theory-priority">Teoria</label>
-                  <input type="range" id="theory-weight" class="weight-slider" min="1" max="5" value="1">
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="english-percentage" class="form-label">Porcentagem de Inglês Técnico: <span id="english-percentage-value">35</span>%</label>
-              <input type="range" id="english-percentage" class="form-control" min="20" max="50" value="35">
-            </div>
-            
-            <div class="form-actions">
-              <button type="button" id="apply-custom" class="btn btn--primary">Aplicar Alterações</button>
-              <button type="button" id="reset-custom" class="btn btn--secondary">Resetar</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      
-      <div class="card mt-8">
-        <div class="card__header">
-          <h3>Prévia das Alterações</h3>
-        </div>
-        <div class="card__body">
-          <div class="preview-container">
-            <div class="preview-chart-container">
-              <canvas id="preview-chart" height="250"></canvas>
-            </div>
-            <div class="preview-summary">
-              <h4>Resumo das Alterações</h4>
-              <div class="preview-item">
-                <span>Semanas Totais:</span>
-                <strong id="preview-weeks">27</strong>
-              </div>
-              <div class="preview-item">
-                <span>Horas Totais:</span>
-                <strong id="preview-hours">218</strong>
-              </div>
-              <div class="preview-item">
-                <span>Término Estimado:</span>
-                <strong id="preview-end-date">05/01/2026</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Módulos Detalhados -->
-    <section id="modules" class="tab-content">
-      <div class="card">
-        <div class="card__header">
-          <h3>Módulos Detalhados</h3>
-        </div>
-        <div class="card__body">
-          <div class="accordion" id="modules-accordion">
-            <!-- Preenchido via JavaScript -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Calculadora de Tempo -->
-    <section id="calculator" class="tab-content">
-      <div class="card">
-        <div class="card__header">
-          <h3>Calculadora de Tempo</h3>
-        </div>
-        <div class="card__body">
-          <form id="calculator-form">
-            <div class="form-group">
-              <label for="available-hours" class="form-label">Horas Disponíveis por Dia</label>
-              <div class="calculator-inputs">
-                <div class="calculator-input-group">
-                  <label for="weekday-morning" class="form-label">Manhã (Seg-Sex)</label>
-                  <input type="number" id="weekday-morning" class="form-control" min="0" max="3" step="0.5" value="0.5">
-                </div>
-                <div class="calculator-input-group">
-                  <label for="weekday-evening" class="form-label">Noite (Seg-Sex)</label>
-                  <input type="number" id="weekday-evening" class="form-control" min="0" max="4" step="0.5" value="2">
-                </div>
-                <div class="calculator-input-group">
-                  <label for="weekend-hours" class="form-label">Sábado</label>
-                  <input type="number" id="weekend-hours" class="form-control" min="0" max="8" step="0.5" value="3">
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-actions">
-              <button type="button" id="calculate-btn" class="btn btn--primary">Calcular Cronograma</button>
-            </div>
-          </form>
-          
-          <div class="calculator-results" id="calculator-results">
-            <h4>Resultados do Cálculo</h4>
-            <div class="results-container">
-              <div class="result-item">
-                <span>Horas Semanais Totais:</span>
-                <strong id="result-weekly-hours">0</strong>
-              </div>
-              <div class="result-item">
-                <span>Duração Total do Programa:</span>
-                <strong id="result-duration">0 semanas</strong>
-              </div>
-              <div class="result-item">
-                <span>Data de Término Estimada:</span>
-                <strong id="result-end-date">--/--/----</strong>
-              </div>
-            </div>
-            
-            <h4>Cronograma Sugerido</h4>
-            <div class="suggested-schedule" id="suggested-schedule">
-              <!-- Preenchido via JavaScript -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>Crono Expert - Criado por Lorena Sena &copy; 2025</p>
-    </div>
-  </footer>
-
-  <script src="app.js"></script>
 </body>
 </html>
